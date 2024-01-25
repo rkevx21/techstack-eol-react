@@ -20,39 +20,40 @@ const App = () => {
   }, []);
 
   return (
-    <div style={{ textAlign: 'center', padding: '20px' }}>
-      <h1>PHP End of Life Information</h1>
-      {phpInfo ? (
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr>
-              <th>Cycle</th>
-              <th>End of Life Date</th>
-              <th>Latest Version</th>
-              <th>Latest Release Date</th>
-              <th>LTS</th>
-              <th>Release Date</th>
-              <th>Support Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {phpInfo.map((versionInfo, index) => (
-              <tr key={index}>
-                <td>{versionInfo.cycle}</td>
-                <td>{versionInfo.eol}</td>
-                <td>{versionInfo.latest}</td>
-                <td>{versionInfo.latestReleaseDate}</td>
-                <td>{versionInfo.lts.toString()}</td>
-                <td>{versionInfo.releaseDate}</td>
-                <td>{versionInfo.support}</td>
+      <div style={{ textAlign: 'center', padding: '20px' }}>
+        <h1>PHP End of Life Information</h1>
+        {phpInfo ? (
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th>Cycle</th>
+                <th>End of Life Date</th>
+                <th>Latest Version</th>
+                <th>Latest Release Date</th>
+                <th>LTS</th>
+                <th>Release Date</th>
+                <th>Support Date</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>Loading PHP information...</p>
-      )}
-    </div>
+            </thead>
+            <tbody>
+              {phpInfo.map((versionInfo, index) => (
+                <tr key={index}>
+                  <td>{versionInfo.cycle}</td>
+                  <td>{versionInfo.eol}</td>
+                  <td>{versionInfo.latest}</td>
+                  <td>{versionInfo.latestReleaseDate}</td>
+                  <td>{versionInfo.lts.toString()}</td>
+                  <td>{versionInfo.releaseDate}</td>
+                  <td>{versionInfo.support}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>Loading PHP information...</p>
+        )}
+      </div>
+  
   );
 };
 
