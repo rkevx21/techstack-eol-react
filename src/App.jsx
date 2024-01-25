@@ -9,6 +9,7 @@ const App = () => {
   const [activeTab, setActiveTab] = useState('php');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(7);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchData = async (url, setData) => {
@@ -26,16 +27,33 @@ const App = () => {
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    setCurrentPage(1); // Reset to the first page when changing tabs
+    setCurrentPage(1);
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const currentPhpInfo = phpInfo ? phpInfo.slice(indexOfFirstItem, indexOfLastItem) : null;
-  const currentMysqlInfo = mysqlInfo ? mysqlInfo.slice(indexOfFirstItem, indexOfLastItem) : null;
+  const allPhpInfo = phpInfo ? phpInfo : [];
+  const allMysqlInfo = mysqlInfo ? mysqlInfo : [];
+
+  const filterDataBySearch = (data) => {
+    return data?.filter((versionInfo) => {
+      const valuesToSearch = Object.values(versionInfo);
+      return valuesToSearch.some((value) =>
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+  };
+
+  const currentPhpInfo = filterDataBySearch(allPhpInfo)?.slice(indexOfFirstItem, indexOfLastItem);
+  const currentMysqlInfo = filterDataBySearch(allMysqlInfo)?.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(1);
+  };
 
   return (
     <div className="container">
@@ -66,7 +84,16 @@ const App = () => {
         <div className="col-md-12">
           <div className="tab-content">
             <div className={`tab-pane ${activeTab === 'php' ? 'fade active show' : 'fade'}`}>
-              {currentPhpInfo ? (
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={handleSearch}
+                />
+              </div>
+              {currentPhpInfo?.length > 0 ? (
                 <div>
                   <table className="table table-bordered table-hover">
                     <thead className="table-dark">
@@ -97,7 +124,7 @@ const App = () => {
                   <Pagination className="d-flex justify-content-end">
                     <Pagination.First onClick={() => paginate(1)} />
                     <Pagination.Prev onClick={() => paginate(currentPage - 1)} />
-                    {Array.from({ length: Math.ceil(phpInfo.length / itemsPerPage) }, (_, index) => (
+                    {Array.from({ length: Math.ceil(allPhpInfo.length / itemsPerPage) }, (_, index) => (
                       <Pagination.Item
                         key={index + 1}
                         active={currentPage === index + 1}
@@ -107,17 +134,28 @@ const App = () => {
                       </Pagination.Item>
                     ))}
                     <Pagination.Next onClick={() => paginate(currentPage + 1)} />
-                    <Pagination.Last onClick={() => paginate(Math.ceil(phpInfo.length / itemsPerPage))} />
+                    <Pagination.Last
+                      onClick={() => paginate(Math.ceil(allPhpInfo.length / itemsPerPage))}
+                    />
                   </Pagination>
                 </div>
               ) : (
                 <div className="text-center">
-                  <p>Loading PHP information...</p>
+                  <p>No results found for your search.</p>
                 </div>
               )}
             </div>
             <div className={`tab-pane ${activeTab === 'mysql' ? 'fade active show' : 'fade'}`}>
-              {currentMysqlInfo ? (
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={handleSearch}
+                />
+              </div>
+              {currentMysqlInfo?.length > 0 ? (
                 <div>
                   <table className="table table-bordered table-hover">
                     <thead className="table-dark">
@@ -148,7 +186,7 @@ const App = () => {
                   <Pagination className="d-flex justify-content-end">
                     <Pagination.First onClick={() => paginate(1)} />
                     <Pagination.Prev onClick={() => paginate(currentPage - 1)} />
-                    {Array.from({ length: Math.ceil(mysqlInfo.length / itemsPerPage) }, (_, index) => (
+                    {Array.from({ length: Math.ceil(allMysqlInfo.length / itemsPerPage) }, (_, index) => (
                       <Pagination.Item
                         key={index + 1}
                         active={currentPage === index + 1}
@@ -158,12 +196,14 @@ const App = () => {
                       </Pagination.Item>
                     ))}
                     <Pagination.Next onClick={() => paginate(currentPage + 1)} />
-                    <Pagination.Last onClick={() => paginate(Math.ceil(mysqlInfo.length / itemsPerPage))} />
+                    <Pagination.Last
+                      onClick={() => paginate(Math.ceil(allMysqlInfo.length / itemsPerPage))}
+                    />
                   </Pagination>
                 </div>
               ) : (
                 <div className="text-center">
-                  <p>Loading MySQL information...</p>
+                  <p>No results found for your search.</p>
                 </div>
               )}
             </div>
