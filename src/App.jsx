@@ -55,6 +55,12 @@ const App = () => {
     setCurrentPage(1);
   };
 
+  const isDateBelowCurrentDate = (dateString) => {
+    const currentDate = new Date();
+    const targetDate = new Date(dateString);
+    return targetDate < currentDate;
+  };
+
   return (
     <div className="container">
       <h1>Tech Stack EOL</h1>
@@ -99,26 +105,27 @@ const App = () => {
                     <thead className="table-dark">
                       <tr>
                         <th>Cycle</th>
-                        <th>End of Life Date</th>
                         <th>Latest Version</th>
-                        <th>Latest Release Date</th>
-                        <th>LTS</th>
                         <th>Release Date</th>
+                        <th>Latest Release Date</th>
+                        <th>End of Life Date</th>
                         <th>Support Date</th>
+                        <th>LTS</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {currentPhpInfo.map((versionInfo, index) => (
+                    {currentPhpInfo.map((versionInfo, index) => (
                         <tr key={index}>
                           <td>{versionInfo.cycle}</td>
-                          <td>{versionInfo.eol}</td>
                           <td>{versionInfo.latest}</td>
-                          <td>{versionInfo.latestReleaseDate}</td>
-                          <td>{versionInfo.lts.toString()}</td>
                           <td>{versionInfo.releaseDate}</td>
-                          <td>{versionInfo.support}</td>
+                          <td>{versionInfo.latestReleaseDate}</td>
+                          <td style={{ backgroundColor: isDateBelowCurrentDate(versionInfo.eol) ? 'red' : 'green' }}>{versionInfo.eol}</td>
+                          <td style={{ backgroundColor: isDateBelowCurrentDate(versionInfo.support) ? 'red' : 'green' }}>{versionInfo.support}</td>
+                          <td>{versionInfo.lts.toString()}</td>
                         </tr>
                       ))}
+
                     </tbody>
                   </table>
                   <Pagination className="d-flex justify-content-end">
@@ -161,24 +168,24 @@ const App = () => {
                     <thead className="table-dark">
                       <tr>
                         <th>Cycle</th>
-                        <th>End of Life Date</th>
                         <th>Latest Version</th>
-                        <th>Latest Release Date</th>
-                        <th>LTS</th>
                         <th>Release Date</th>
+                        <th>Latest Release Date</th>
+                        <th>End of Life Date</th>
                         <th>Support Date</th>
+                        <th>LTS</th>
                       </tr>
                     </thead>
                     <tbody>
                       {currentMysqlInfo.map((versionInfo, index) => (
                         <tr key={index}>
                           <td>{versionInfo.cycle}</td>
-                          <td>{versionInfo.eol}</td>
                           <td>{versionInfo.latest}</td>
-                          <td>{versionInfo.latestReleaseDate}</td>
-                          <td>{versionInfo.lts.toString()}</td>
                           <td>{versionInfo.releaseDate}</td>
-                          <td>{versionInfo.support}</td>
+                          <td>{versionInfo.latestReleaseDate}</td>
+                          <td style={{ backgroundColor: isDateBelowCurrentDate(versionInfo.eol) ? 'red' : 'green' }}>{versionInfo.eol}</td>
+                          <td style={{ backgroundColor: isDateBelowCurrentDate(versionInfo.support) ? 'red' : 'green' }}>{versionInfo.support}</td>
+                          <td>{versionInfo.lts.toString()}</td>
                         </tr>
                       ))}
                     </tbody>
