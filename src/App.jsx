@@ -56,7 +56,13 @@ const App = () => {
   };
 
   const isDateBelowCurrentDate = (dateString) => {
+    const isDate = (dateString) => /^\d{4}-\d{2}-\d{2}$/.test(dateString);
     const currentDate = new Date();
+
+    if (!isDate(dateString)) {
+      return false;
+    }
+
     const targetDate = new Date(dateString);
     return targetDate < currentDate;
   };
@@ -120,8 +126,8 @@ const App = () => {
                           <td>{versionInfo.latest}</td>
                           <td>{versionInfo.releaseDate}</td>
                           <td>{versionInfo.latestReleaseDate}</td>
-                          <td style={{ backgroundColor: isDateBelowCurrentDate(versionInfo.eol) ? 'red' : 'green' }}>{versionInfo.eol}</td>
-                          <td style={{ backgroundColor: isDateBelowCurrentDate(versionInfo.support) ? 'red' : 'green' }}>{versionInfo.support}</td>
+                          <td style={{ backgroundColor: isDateBelowCurrentDate(versionInfo.eol) ? '#FFCCCB' : '#90ee90' }}>{versionInfo.eol}</td>
+                          <td style={{ backgroundColor: isDateBelowCurrentDate(versionInfo.support) ? '#FFCCCB' : '#90ee90' }}>{versionInfo.support}</td>
                           <td>{versionInfo.lts.toString()}</td>
                         </tr>
                       ))}
@@ -183,8 +189,8 @@ const App = () => {
                           <td>{versionInfo.latest}</td>
                           <td>{versionInfo.releaseDate}</td>
                           <td>{versionInfo.latestReleaseDate}</td>
-                          <td style={{ backgroundColor: isDateBelowCurrentDate(versionInfo.eol) ? 'red' : 'green' }}>{versionInfo.eol}</td>
-                          <td style={{ backgroundColor: isDateBelowCurrentDate(versionInfo.support) ? 'red' : 'green' }}>{versionInfo.support}</td>
+                          <td style={{ backgroundColor: isDateBelowCurrentDate(versionInfo.eol) ? '#FFCCCB' : '#90ee90' }}>{versionInfo.eol}</td>
+                          <td style={{ backgroundColor: isDateBelowCurrentDate(versionInfo.support) ? '#FFCCCB' : '#90ee90' }}>{versionInfo.support}</td>
                           <td>{versionInfo.lts.toString()}</td>
                         </tr>
                       ))}
