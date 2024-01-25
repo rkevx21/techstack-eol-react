@@ -1,0 +1,43 @@
+// src/App.jsx
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const App = () => {
+  const [phpInfo, setPhpInfo] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://endoflife.date/api/php.json');
+        console.log('API Response:', response.data); // Log the response to inspect its structure
+        setPhpInfo(response.data);
+      } catch (error) {
+        console.error('Error fetching PHP information:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      <h1>PHP End of Life Information</h1>
+      {phpInfo ? (
+        <ul>
+          {phpInfo.map((versionInfo, index) => (
+            <li key={index}>
+              <p>Version: {versionInfo.latest}</p>
+              <p>End of Life Date: {versionInfo.eol}</p>
+              <p>Release Date: {versionInfo.releaseDate}</p>
+              <p>Support Date: {versionInfo.support}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Loading PHP information...</p>
+      )}
+    </div>
+  );
+};
+
+export default App;
