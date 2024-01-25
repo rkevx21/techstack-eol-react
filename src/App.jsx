@@ -38,10 +38,10 @@ const App = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="container mt-5">
-      <h1 className="text-center mb-4">Tech Stack EOL</h1>
+    <div className="container">
+      <h1>Tech Stack EOL</h1>
       <div className="row">
-        <div className="col-md-12"> {/* Full-width column */}
+        <div className="col-md-12">
           <ul className="nav nav-tabs">
             <li className="nav-item">
               <button
@@ -63,9 +63,9 @@ const App = () => {
         </div>
       </div>
       <div className="row mt-3">
-        <div className="col-md-12"> {/* Full-width column */}
+        <div className="col-md-12">
           <div className="tab-content">
-            <div className={`tab-pane fade ${activeTab === 'php' ? 'show active' : ''}`}>
+            <div className={`tab-pane ${activeTab === 'php' ? 'fade active show' : 'fade'}`}>
               {currentPhpInfo ? (
                 <div>
                   <table className="table table-bordered table-hover">
@@ -116,7 +116,7 @@ const App = () => {
                 </div>
               )}
             </div>
-            <div className={`tab-pane fade ${activeTab === 'mysql' ? 'show active' : ''}`}>
+            <div className={`tab-pane ${activeTab === 'mysql' ? 'fade active show' : 'fade'}`}>
               {currentMysqlInfo ? (
                 <div>
                   <table className="table table-bordered table-hover">
